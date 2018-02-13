@@ -11,11 +11,11 @@ const spotify = new Spotify(keys.spotify);
 const client = new Twitter(keys.twitter);
 const omdbApi = "96675a9";
 const queryUrl = 'http://www.omdbapi.com/?t=' + movieName + '&y=&plot=short&apikey=' + omdbApi;
-
+// end of global info
 
 switch (action) {
   case "my-tweets":
-    myTweets(arg1);
+    myTweets(arg2);
     break;
 
   case "spotify-this-song":
@@ -32,24 +32,21 @@ switch (action) {
 }
 
 function myTweets(){
-  var params = {screen_name: 'nodejs'};
+  var params = arg2;
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
   if (!error) {
     console.log(tweets);
   }
 });
 
-};
-
 function spotifySong() {
-  spotify.search({ type: 'track', query: 'dancing in the moonlight' }, function(err, data) {
+  spotify.search({arg3}, function(err, data) {
     if ( err ) {
         console.log('Error occurred: ' + err);
         return;
     }
      // Do something with 'data' 
 });
-};
 
 function movie(){
   request(queryUrl, function(error, response, body) {
