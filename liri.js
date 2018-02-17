@@ -1,20 +1,25 @@
 // set global info
 require("dotenv").config();
+const keys = require('./keys');
 const spotifyReq = require("node-spotify-api");
 const twitterReq = require("twitter");
 const request = require("request");
 const fs = require("fs");
 const arg2 = process.argv[2];
 const arg3 = process.argv[3];
+
+// import { Spotify } from '/keys.js';
+// import { Twitter } from '/keys.js';
+
 // keys required
-const spotify = new Spotify(keys.spotify);
-const client = new Twitter(keys.twitter);
-console.log(spotify);
+var spotify = new spotifySong(keys.spotify);
+var client = new myTweets(keys.twitter);
 const omdbApi = "96675a9"
-const queryUrl = 'http://www.omdbapi.com/?t=' + movieName + '&y=&plot=short&apikey=' + omdbApi;
+const queryUrl = 'http://www.omdbapi.com/?t=' + arg3 + '&y=&plot=short&apikey=' + omdbApi;
+console.log(spotify);
 
 // options for arg2
-switch (action) {
+switch (arg2) {
     case "my-tweets":
         myTweets();
         break;
@@ -31,7 +36,7 @@ switch (action) {
 
 function myTweets() {
     var params = {screen_name: 'chirpy_derby', count:20};
-    client.get('statuses/user_timeline',params, function (error,tweets, response) {
+    client.get('statuses/user_timeline',params, function (error, tweets, response) {
         for (let i=0; i <tweets.length; i++){
             console.log(JSON.stringify(tweets[i].text, null, 2));
         }
@@ -40,8 +45,7 @@ function myTweets() {
 
 function spotifySong() {
     if(!arg3) {
-    console.log("Can't decide? How about this? ") 
-    arg3 = "The Sign";
+    console.log("Can't decide? How about this? " + (arg3 = "The Sign"));
     };
     spotify.search({ type: 'track', query: arg3, limit: 1}, function(error, data) {
         if (error) {
