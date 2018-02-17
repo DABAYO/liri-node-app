@@ -6,14 +6,15 @@ const twitterReq = require("twitter");
 const request = require("request");
 const fs = require("fs");
 const arg2 = process.argv[2];
-const arg3 = process.argv[3];
+let arg3 = process.argv[3];
 
 // import { Spotify } from '/keys.js';
 // import { Twitter } from '/keys.js';
-
+console.log(keys.Spotify);
 // keys required
-var spotify = new spotifySong(keys.spotify);
-var client = new myTweets(keys.twitter);
+var spotify = new spotifyReq(keys.Spotify);
+
+var client = new twitterReq(keys.Twitter);
 const omdbApi = "96675a9"
 const queryUrl = 'http://www.omdbapi.com/?t=' + arg3 + '&y=&plot=short&apikey=' + omdbApi;
 console.log(spotify);
@@ -45,7 +46,8 @@ function myTweets() {
 
 function spotifySong() {
     if(!arg3) {
-    console.log("Can't decide? How about this? " + (arg3 = "The Sign"));
+        arg3 = "The Sign"
+    console.log("Can't decide? How about this? " + arg3);
     };
     spotify.search({ type: 'track', query: arg3, limit: 1}, function(error, data) {
         if (error) {
