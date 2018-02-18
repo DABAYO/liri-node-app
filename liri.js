@@ -5,19 +5,14 @@ const spotifyReq = require("node-spotify-api");
 const twitterReq = require("twitter");
 const request = require("request");
 const fs = require("fs");
-const arg2 = process.argv[2];
+let arg2 = process.argv[2];
 let arg3 = process.argv[3];
 
-// import { Spotify } from '/keys.js';
-// import { Twitter } from '/keys.js';
-console.log(keys.Spotify);
 // keys required
 var spotify = new spotifyReq(keys.Spotify);
-
 var client = new twitterReq(keys.Twitter);
 const omdbApi = "96675a9"
 const queryUrl = 'http://www.omdbapi.com/?t=' + arg3 + '&y=&plot=short&apikey=' + omdbApi;
-console.log(spotify);
 
 // options for arg2
 switch (arg2) {
@@ -46,12 +41,11 @@ function myTweets() {
 
 function spotifySong() {
     if(!arg3) {
-        arg3 = "The Sign"
-    console.log("Can't decide? How about this? " + arg3);
+        console.log("The Sign");
     };
     spotify.search({ type: 'track', query: arg3, limit: 1}, function(error, data) {
         if (error) {
-            return console.log('Error: ' + error);
+            return console.log(error);
         }
         console.log(JSON.stringify (data.tracks.items[0].artists[0].name, null, 2));
         console.log(JSON.stringify (data.tracks.items[0].name, null, 2));
@@ -62,7 +56,7 @@ function spotifySong() {
 
 function movie() {
     if (!arg3) {
-        arg3 = "Mr. Nobody";
+        console.log("Mr. Nobody");
     }
     request(queryUrl, function(error, response, body) {
         console.log(JSON.parse(body).ratings.length);
